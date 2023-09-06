@@ -1,30 +1,36 @@
 # SOCKET_PROGRAMMING
 
-This project is about a basic chat application using the TCP protocol in C++. Here's a summary of  chat application's key components and functionality:
-1)Server Side:-
-i)  The server listens for incoming client connections on a specified port (8080 in your case) using the socket, bind, and listen functions.
-ii) When a client connects, the server launches a separate thread (client_handler) to handle that client.
-iii)Each client is assigned a unique username, and the server maintains a list of active clients.
+A combined summary of the chat application and the functionality related to the group GET, PUT, DEL requests:
+chat Application with Group Requests (GET, PUT, DEL) over TCP
 
-2)Client Side:
-The client connects to the server using the socket, connect, and write functions. It also sends its chosen username to the server.
-
-3)Communication:
-i)Clients can send text messages to the server, which are then broadcast to all connected clients.
-ii)The server uses mutexes to protect shared data structures (e.g., the list of active clients) to ensure thread safety.
-
-4)Exit Functionality:
-i)If a client sends the message "[CLIENT] exit," it gracefully exits by closing its socket and thread.
-ii)The server detects when a client disconnects and removes them from the list of active clients.
-
-5)Header File :
-i)You have defined common functions and constants used by both the server and client in a separate header file to promote code reusability.
-
-6)Multithreading:
-i)Your code uses the <thread> library to create and manage threads for handling multiple clients concurrently.
-
-7)Error Handling:
-i)The code includes error handling to deal with potential issues such as failed socket creation or connection.
+Overview:
+I have developed a TCP-based chat application that allows users to connect, communicate, and perform group-based GET, PUT, and DEL requests. The application is divided into two parts: the server-side and the client-side. It provides real-time chat functionality along with a shared key-value database that can be queried and manipulated by clients using requests.
 
 
-Overall, this chat application demonstrates the use of sockets, multithreading, and basic client-server communication. 
+1)Server-side:
+*The server listens on a specified port (8080) for incoming client connections using sockets.
+*It maintains a list of connected clients with their respective usernames, ensuring thread safety with a mutex.
+*The server handles client connections and launches a separate thread for each connected client.
+*Messages sent by clients are broadcasted to all other clients in the chat room.
+*The server provides a shared key-value database for clients to perform GET, PUT, and DEL operations.
+*Error handling is implemented for socket operations and client connections.
+
+
+2)Client-side:
+*Clients connect to the server using sockets and provide a unique username.
+*Clients can send text messages to the chat room, which are broadcasted to all connected clients.
+*Clients can perform GET, PUT, and DEL requests on the shared key-value database.
+*Error handling is implemented for socket operations and connection to the server.
+
+3)Group Requests (GET, PUT, DEL):
+*Clients can send requests in the format: <METHOD>-<KEY>-<VALUE> to perform operations on the shared database.
+*Supported methods include PUT (for adding/updating values), GET (for querying values), and DEL (for deleting values).
+*The server validates and processes these requests, providing appropriate responses to clients.
+*Clients can interact with the database to store and retrieve key-value pairs.
+*Invalid requests are handled gracefully with appropriate error messages.
+
+4)Additional Notes:
+*The code implements multithreading for handling multiple clients concurrently.
+*Mutexes are used to ensure thread safety when accessing shared data structures (client list, database).
+*Clients can gracefully exit the chat by sending an "exit" message.
+*Comprehensive error handling is implemented for robustness.
